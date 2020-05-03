@@ -2,51 +2,9 @@
     "AWSEBDockerrunVersion": 2,
     "containerDefinitions": [
         {
-            "name": "loginapp",
-            "links": [
-                "mysql-server"
-            ],
-            "image": "softwarebhayya/loginapp",
-            "essential": false,
-            "portMappings": [
-                {
-                    "containerPort": 8888,
-                    "hostPort": 80
-                }
-            ],
-            "environment": [
-                {
-                    "name": "MSHOST",
-                    "value": "mysql-server"
-                },
-                {
-                    "name": "MSUSER",
-                    "value": "root"
-                },
-                {
-                    "name": "MSPASSWORD",
-                    "value": "password"
-                },
-                {
-                    "name": "MSDATABASE",
-                    "value": "logindb"
-                },
-                {
-                    "name": "SERVERPORT",
-                    "value": "8888"
-                },
-                {
-                    "name": "WAIT_HOSTS",
-                    "value": "mysql-server:3306"
-                },
-                {
-                    "name": "WAIT_HOSTS_TIMEOUT",
-                    "value": "90"
-                }
-            ],
-            "memory": 500
-        },
-        {
+            "name": "mysql-server",
+            "image": "mysql:5.7",
+            "hostname": "mysql-server",
             "environment": [
                 {
                     "name": "MYSQL_ROOT_PASSWORD",
@@ -57,10 +15,43 @@
                     "value": "logindb"
                 }
             ],
-            "name": "mysql-server",
-            "image": "mysql:5.7",
             "memory": 500,
             "essential": true
+        },
+        {
+            "name": "loginapp",
+            "image": "softwarebhayya/loginapp",
+            "environment": [
+                {
+                    "name": "MSHOST",
+                    "value": "mysql-server"
+                },
+                {
+                    "name": "MSDATABASE",
+                    "value": "logindb"
+                },
+                {
+                    "name": "MSUSER",
+                    "value": "root"
+                },
+                {
+                    "name": "MSPASSWORD",
+                    "value": "password"
+                },
+                {
+                    "name": "WAIT_HOSTS",
+                    "value": "mysql-server:3306"
+                },
+                {
+                    "name": "WAIT_HOSTS_TIMEOUT",
+                    "value": "90"
+                }
+            ],
+            "links": [
+                "mysql-server"
+            ],
+            "memory": 128,
+            "essential": false
         }
     ]
 }
